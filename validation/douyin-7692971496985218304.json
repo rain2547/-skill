@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "tested_at": "2026-10-08T11:20:10.540503+00:00",
+  "source_page": "https://v.douyin.com/GMp37b4x2pA/",
+  "id": "7692971496985218304",
+  "title": "消除信息差！看懂 GitHub 最常见的 6 种文件",
+  "status": "success",
+  "backend": "ytdlp",
+  "session_input": "previously exported Netscape cookie file",
+  "mode": "both",
+  "files": [
+    {
+      "kind": "video",
+      "filename": "media.mp4",
+      "bytes": 12263479,
+      "duration": 360.629002,
+      "sha256": "2e08d8ec9f6553409fca2b67862fb6921bf1bfaa8081216838ea0f49c2bf4660"
+    },
+    {
+      "kind": "audio",
+      "filename": "audio.mp3",
+      "bytes": 6217589,
+      "duration": 360.629002,
+      "sha256": "ddf4e5c9957b972931545d4557d9711dbbad18815706ba3789d5a7d9ad24b001"
+    }
+  ],
+  "independent_checks": {
+    "file_sizes_match": true,
+    "sha256_match": true,
+    "mp4_header_duration": 360.63,
+    "mp3_frames": 13808,
+    "mp3_frame_duration": 360.6987755101957,
+    "mp3_frame_structure_valid": true
+  },
+  "provenance": "Successful result manifest and actual media files produced in DeepSeek Harness, independently inspected in Codex",
+  "limits": "One real video and the provided session; DTK live service and arbitrary links not certified"
+}

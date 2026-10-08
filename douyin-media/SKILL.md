@@ -25,7 +25,7 @@ python scripts/fetch_media.py --backend dtk --url "抖音链接" --output "输�
 
 ## 会话与失败处理
 
-只有用户授权使用其会话后，才传 `--cookies-browser chrome|edge|firefox` 或 `--cookies-file`。API key 通过 `DTK_API_KEY` 环境变量提供。凭证及原始媒体签名 URL 不进入结果清单或交付内容。服务模式可能在指定服务器保存媒体，这应符合用户选择的保存位置。
+只有用户授权使用其会话后，才传 `--cookies-browser chrome|edge|firefox` 或 `--cookies-file`。已有授权的 Netscape Cookie 文件时优先使用 `--cookies-file`，该流程已在真实抖音视频上验证；Windows 上可避免直接读取浏览器数据库时的占用与 DPAPI 兼容性问题。API key 通过 `DTK_API_KEY` 环境变量提供。凭证及原始媒体签名 URL 不进入结果清单或交付内容。服务模式可能在指定服务器保存媒体，这应符合用户选择的保存位置。
 
 每项默认处理时限 300 秒、源媒体上限 1 GiB，可按任务调整。HTTP 传输有 socket 时限，脚本在读取块和阶段边界检查剩余时间。下载器仅对暂时性网络错误有限重试；遇到 `session_required`、登录、验证码或权限不足时使用正常授权路径，停止自动重试。
 

@@ -34,6 +34,8 @@ python douyin-media/scripts/fetch_media.py --url "抖音链接" --cookies-file "
 
 可传 `--proxy http://127.0.0.1:7897` 使用本机下载器代理。代理端口由实际环境决定。`--cookies-file` 使用一次性副本，原文件保持不变。
 
+Windows 上若已有用户授权的 Netscape Cookie 文件，优先使用 `--cookies-file`。文件只保留本机，不放入 Git 仓库；无需为了读取文件再次关闭浏览器。该方式已用于本项目的真实视频验证。
+
 ## 自部署服务后端
 
 先按上游文档部署 v5 服务，启用媒体下载组件，并创建有 `douyin:read`、`media:read`、`media:write` 权限的 API key。这个后端会在指定服务的媒体卷上保存视频，再把视频下载到当前机器。
@@ -64,4 +66,4 @@ python -m unittest discover -s tests -v
 
 需要 FFmpeg 才能跑全部测试；非 PATH 安装可先设置 `MEDIA_FFMPEG_DIR` 为 bin 目录。测试实际生成视频并调用 FFmpeg/ffprobe，DTK 协议测试使用本机 HTTP 测试服务。
 
-2026-10-08：24 项测试通过。本地视频与音频处理、DTK HTTP 接入和异常处理通过；真实抖音下载仍未成功。用户授权的 Edge 会话先遇到数据库占用，完全退出后台进程后遇到 DPAPI 解密失败。skill 已分别报告 browser_cookie_access、browser_decryption、browser_profile 和平台 session_required；恢复路径为正常导出的仅抖音域 Cookie 文件。没有实测连接用户自部署的 DTK 服务。详细证据见 [验证报告](VALIDATION.md)。
+2026-10-08：24 项自动测试通过，抖音实网的「链接 → 视频 → MP3 → 校验」流程也已通过。使用已导出的 Netscape Cookie 文件（--cookies-file），成功获取作品 7692971496985218304，视频和音频均约 360.63 秒；独立复核文件大小、SHA-256 和媒体结构通过。Edge 数据库直接导入仍可能受后台占用或 DPAPI 解密影响，因此 Windows 上已有授权 Cookie 文件时推荐优先使用文件输入。自部署 DTK 服务的实网下载尚未验证。详见 [验证报告](VALIDATION.md)及[脱敏成功记录](validation/douyin-7692971496985218304.json)。
