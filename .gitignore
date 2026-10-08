@@ -1,0 +1,6 @@
+__pycache__/
+*.py[cod]
+media/
+outputs/
+.env
+*cookies*.txt
