@@ -39,6 +39,20 @@ class UrlTests(unittest.TestCase):
         with self.assertRaises(MediaError):
             DtkClient("http://example.com", "secret", media.Deadline(1))
 
+    def test_browser_cookie_failures_have_specific_codes(self):
+        samples = (
+            ("ERROR: Could not copy Chrome cookie database", "browser_cookie_access"),
+            ("ERROR: Failed to decrypt with DPAPI", "browser_decryption"),
+            ("ERROR: could not find edge cookies database", "browser_profile"),
+            ("ERROR: Fresh cookies (not necessarily logged in) are needed", "session_required"),
+        )
+        for message, expected in samples:
+            with self.subTest(message=message):
+                command = [sys.executable, "-c", "import sys; sys.stderr.write(" + repr(message) + "); sys.exit(1)"]
+                with self.assertRaises(MediaError) as caught:
+                    media.run(command, media.Deadline(5), "download_failed")
+                self.assertEqual(caught.exception.code, expected)
+
 
 class MediaTests(unittest.TestCase):
     @classmethod

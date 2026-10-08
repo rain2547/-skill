@@ -64,4 +64,4 @@ python -m unittest discover -s tests -v
 
 需要 FFmpeg 才能跑全部测试；非 PATH 安装可先设置 `MEDIA_FFMPEG_DIR` 为 bin 目录。测试实际生成视频并调用 FFmpeg/ffprobe，DTK 协议测试使用本机 HTTP 测试服务。
 
-2026-10-08：23 项测试通过。本地视频与音频处理、DTK HTTP 接入和异常处理通过；真实抖音链接返回 `session_required`，未取得媒体。没有使用用户浏览器 Cookie，也没有实测连接用户自部署的 DTK 服务。详细证据见 [验证报告](VALIDATION.md)。
+2026-10-08：24 项测试通过。本地视频与音频处理、DTK HTTP 接入和异常处理通过；真实抖音下载仍未成功。用户授权的 Edge 会话先遇到数据库占用，完全退出后台进程后遇到 DPAPI 解密失败。skill 已分别报告 browser_cookie_access、browser_decryption、browser_profile 和平台 session_required；恢复路径为正常导出的仅抖音域 Cookie 文件。没有实测连接用户自部署的 DTK 服务。详细证据见 [验证报告](VALIDATION.md)。

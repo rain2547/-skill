@@ -60,6 +60,12 @@ def run(command, deadline, category="tool_error"):
     if result.returncode:
         detail = result.stderr.lower()
         if category == "download_failed":
+            if "could not copy" in detail and "cookie database" in detail:
+                raise MediaError("browser_cookie_access", "Browser cookie database is locked or unreadable; close browser background processes or use a normally exported cookie file")
+            if "dpapi" in detail or "app-bound" in detail:
+                raise MediaError("browser_decryption", "Windows could not decrypt the browser session; use a normally exported cookie file or another supported browser")
+            if "could not find" in detail and "cookies database" in detail:
+                raise MediaError("browser_profile", "The selected browser profile could not be found in this execution environment")
             if any(word in detail for word in ("cookies", "login", "sign in", "captcha")):
                 raise MediaError("session_required", "The platform requires a usable authorized session")
             if any(word in detail for word in ("404", "not available", "private", "deleted")):

@@ -30,3 +30,5 @@ python scripts/fetch_media.py --backend dtk --url "抖音链接" --output "输�
 每项默认处理时限 300 秒、源媒体上限 1 GiB，可按任务调整。HTTP 传输有 socket 时限，脚本在读取块和阶段边界检查剩余时间。下载器仅对暂时性网络错误有限重试；遇到 `session_required`、登录、验证码或权限不足时使用正常授权路径，停止自动重试。
 
 出现失败时读取 [排错说明](references/troubleshooting.md)。报告实际测试范围：本机 HTTP 测试服务验证的是接入协议，不能证明抖音实网下载成功。以当前任务的真实结果为准。
+
+将浏览器读取和解密错误与平台拒绝分开处理。browser_cookie_access 可在浏览器完全退出后重试一次；browser_decryption 切换为正常导出的仅抖音域 Netscape Cookie 文件（--cookies-file），不继续反复关闭浏览器或修改其加密保护。文件放在仓库外，仅把文件路径用于任务，不把会话内容写入聊天或报告。
