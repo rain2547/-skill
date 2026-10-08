@@ -1,33 +1,32 @@
 ---
 name: douyin-media
-description: 获取用户指定的抖音视频或从本地视频提取完整音轨，支持单条链接及明确指定的链接列表，校验文件并交付视频、音频和结果清单。
+description: 获取指定抖音视频或从本地视频提取完整音轨，支持分享文本、明确指定的链接列表、本机下载器和已配置的下载服务，并校验交付文件。
 ---
 
 # 抖音视频与音频
 
-使用 scripts/fetch_media.py 执行任务。下载后端为 yt-dlp，音频处理使用 FFmpeg；平台支持需以实际执行结果为准。
+使用本 skill 目录下 `scripts/fetch_media.py`。默认单条输入输出视频和 MP3；音频为视频的完整音轨。只处理用户指定的作品，不扩展到主页、合集或直播。背景音乐获取和人声分离属于另外的处理流程。
 
-## 输入和执行
+## 路由与执行
 
-接受分享文本、抖音视频链接或本地媒体路径。默认 mode=both、audio-format=mp3。音频指完整音轨，包括人声、音乐和音效；背景音乐获取或人声分离是另外的任务。
+1. 接受本地视频路径、一个抖音视频链接或一段含单个链接的分享文本。多项任务重复 `--url` 或 `--input`；每个参数只放一个链接。
+2. 确定输出目录及 `--mode video|audio|both`、`--audio-format mp3|wav`。先执行 `--check`，需要的 Python 下载依赖见 `requirements.txt`；FFmpeg 安装须提供 ffmpeg、ffprobe。工具不在 PATH 时传 `--ffmpeg-dir`。
+3. 本地输入直接用 `--input`。链接默认用 yt-dlp；用户已指定或配置 Evil0ctal v5 服务时用 `--backend dtk`，并读取 [服务接口说明](references/backends.md)。后端失败时不隐式把输入或会话发送到另一服务。
+4. 执行脚本，检查退出码及打印的 `result.json` 路径。脚本保留媒体容器原扩展名；如果用户明确需要 MP4，再完成兼容的封装或转码并重新校验。
+5. 交付结果清单中确实存在的文件链接。退出码 0 表示全部成功，1 表示失败或部分成功，2 表示参数、环境或输出错误。无音轨时可交付已校验的视频。音轨较视频短是可能的，不补造声音。
 
-1. 检查 python、yt-dlp、ffmpeg、ffprobe。使用 python scripts/fetch_media.py --check 检查环境。缺依赖时按用户环境安装；Python 依赖为 yt-dlp，FFmpeg 安装须同时提供 ffprobe。
-2. 对每个指定链接使用 --url，对本地文件使用 --input。批量任务可重复 --url 或 --input。选择 --mode video、audio 或 both，并设置 --output 为用户指定输出目录。
-3. 下载仅针对指定视频，不扩展到账号或播放列表。分享短链由后端解析；用户可先提供展开后的完整视频链接以排查短链问题。
-4. 查看进程退出码和 result.json。退出码 0 为全部成功，1 为至少一项失败，2 为环境或参数错误。部分成功时仍交付已校验文件。
-5. 返回实际生成文件的可点击链接和失败原因。音频提取失败时保留成功下载的视频。
-
-示例：
+示例（脚本路径替换为本 skill 实际路径）：
 
 ```text
-python scripts/fetch_media.py --url "抖音分享文本或链接" --mode both --audio-format mp3 --output "输出目录"
-python scripts/fetch_media.py --input "本地视频.mp4" --mode audio --audio-format wav --output "输出目录"
+python scripts/fetch_media.py --url "抖音分享文本" --mode both --output "输出目录"
+python scripts/fetch_media.py --input "视频.mp4" --mode audio --audio-format wav --output "输出目录"
+python scripts/fetch_media.py --backend dtk --url "抖音链接" --output "输出目录"
 ```
 
-## 会话与停止条件
+## 会话与失败处理
 
-默认不读取浏览器会话。只有用户授权使用其会话后，才传入 --cookies-browser chrome 等参数。凭证不写入结果清单；不要在交付内容中包含原始诊断日志或媒体签名直链。
+只有用户授权使用其会话后，才传 `--cookies-browser chrome|edge|firefox` 或 `--cookies-file`。API key 通过 `DTK_API_KEY` 环境变量提供。凭证及原始媒体签名 URL 不进入结果清单或交付内容。服务模式可能在指定服务器保存媒体，这应符合用户选择的保存位置。
 
-脚本对网络下载最多重试两次，每项有总超时。登录要求、验证码、权限不足或内容不可用时，报告原因并使用正常授权路径，不自动反复尝试。现有文件不覆盖，每次执行输出独立运行目录。
+每项默认处理时限 300 秒、源媒体上限 1 GiB，可按任务调整。HTTP 传输有 socket 时限，脚本在读取块和阶段边界检查剩余时间。下载器仅对暂时性网络错误有限重试；遇到 `session_required`、登录、验证码或权限不足时使用正常授权路径，停止自动重试。
 
-出现解析或依赖错误时阅读 references/troubleshooting.md。
+出现失败时读取 [排错说明](references/troubleshooting.md)。报告实际测试范围：本机 HTTP 测试服务验证的是接入协议，不能证明抖音实网下载成功。以当前任务的真实结果为准。

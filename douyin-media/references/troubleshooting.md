@@ -1,17 +1,20 @@
 # 排错
 
-- --check 失败：确认当前 Python 可导入 yt_dlp，ffmpeg 与 ffprobe 在 PATH 中。Python 依赖可通过 python -m pip install yt-dlp 安装。
-- 解析失败：记录当前 yt-dlp 版本，核查上游 Douyin 问题；更新后对同一链接实测。不要把通用下载器支持等同于当前链接必定可下载。
-- 登录或 Cookie 要求：取得用户授权后，使用 --cookies-browser 指定浏览器。浏览器凭证读取可能受系统加密或文件占用影响；停止并说明具体错误。
-- 短链失败：请求或取得对应的 www.douyin.com/video/<id> 完整链接，重试一次。
-- 无音轨：音频任务失败；视频任务可以独立成功。
-- FFmpeg 转码失败：查看本地诊断，确认编码器可用及磁盘空间足够。交付校验通过的视频。
-- 超时：单项默认为 300 秒，可用 --timeout 调整。批量任务会继续处理后续项目。
+先看 result.json 中 error.code；原始工具输出可能含媒体签名或会话信息，不直接交付给用户。
 
-## 上游来源
+| code | 处理 |
+| --- | --- |
+| session_required | 获取用户授权后使用浏览器会话或 Netscape Cookie 文件；不自动读取会话 |
+| unavailable | 核实视频是否删除、私密或受权限限制 |
+| download_failed/backend_response | 记录后端版本，核查上游问题；更新后对同一链接实测 |
+| tool_missing | 安装 FFmpeg/ffprobe，或修正 --ffmpeg-dir |
+| no_audio | 交付已校验的视频；该视频没有可提取音轨 |
+| invalid_media/conversion_failed | 检查源媒体、编码器和空间；保留已交付视频 |
+| timeout | 检查网络与服务任务状态，按需要调整 --timeout；服务任务可能仍在运行 |
+| size_limit | 按用户允许的容量调整 --max-bytes；源文件和下载流都受此上限约束 |
+| service_auth/service_permission | 检查 DTK_API_KEY 及 douyin:read、media:read、media:write 权限 |
+| service_not_configured | 在用户服务中启用上游媒体下载组件 |
+| checksum_mismatch/incomplete_download | 文件未通过完整性校验，本次不交付该文件；检查服务与网络 |
+| service_redirect | 配置能直接处理 API 与媒体响应的服务 origin |
 
-下载器：https://github.com/yt-dlp/yt-dlp
-FFmpeg：https://www.ffmpeg.org/ffmpeg.html
-可选服务后端：https://github.com/Evil0ctal/Douyin_TikTok_Download_API
-
-当前实现直接调用 yt-dlp，不依赖 Evil0ctal 服务。未来接入服务时应新增适配器，按固定版本核实 API 或 MCP 工具及响应；不要复用不同主版本的接口示例。
+--check 只检查本机工具和服务配置是否存在，不测试服务连接或 API key 权限。批量任务逐项记录结果；有效输出在独立运行目录中，不覆盖以前的文件。

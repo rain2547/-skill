@@ -1,0 +1,2 @@
+# Version verified by the repository's 2026-10-08 validation run.
+yt-dlp==2026.8.19

@@ -1,1 +1,1 @@
-yt-dlp
+-r douyin-media/requirements.txt
