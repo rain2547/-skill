@@ -113,7 +113,7 @@ def record(path, kind, duration, deadline):
 
 
 def ytdlp_download(url, folder, options, deadline):
-    command = [sys.executable, "-m", "yt_dlp", "--ignore-config", "--no-playlist",
+    command = [sys.executable, "-X", "utf8", "-m", "yt_dlp", "--ignore-config", "--no-playlist",
                "--no-simulate", "--no-overwrites", "--retries", "2", "--fragment-retries", "2",
                "--socket-timeout", "20", "--max-filesize", str(options.max_bytes),
                "--write-info-json", "--ffmpeg-location", str(Path(options.ffmpeg).parent),

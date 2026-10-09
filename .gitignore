@@ -4,3 +4,9 @@ media/
 outputs/
 .env
 *cookies*.txt
+
+runtime/
+dist/
+.test-temp/
+*.zip
+*cookie*.json

@@ -1,0 +1,189 @@
+{
+  "schema_version": 1,
+  "validated_on": "2026-10-09",
+  "timezone": "Asia/Shanghai",
+  "status": "runtime_and_asr_validation_passed",
+  "platform": "Windows x64",
+  "runtime": {
+    "python": {
+      "version": "3.13.16",
+      "distribution": "official embedded AMD64",
+      "archive_sha256": "97dae5274cc54867065e8d5a3226e48c35017ed332a0fdb0e27d5b5821961297",
+      "isolated": true
+    },
+    "dependencies": {
+      "distribution_count": 26,
+      "files": 3352,
+      "bytes": 256134560,
+      "versions": {
+        "anyio": "4.10.0",
+        "av": "19.0.1",
+        "certifi": "2026.1.4",
+        "click": "8.5.0",
+        "colorama": "0.4.6",
+        "ctranslate2": "4.8.2",
+        "faster-whisper": "1.2.1",
+        "filelock": "4.0.12",
+        "flatbuffers": "25.12.19",
+        "fsspec": "2026.9.0",
+        "h11": "0.16.0",
+        "hf-xet": "1.7.0",
+        "httpcore": "1.0.9",
+        "httpx": "0.28.1",
+        "huggingface_hub": "1.33.0",
+        "idna": "3.11",
+        "numpy": "2.5.3",
+        "onnxruntime": "1.30.0",
+        "packaging": "25.0",
+        "protobuf": "7.36.2",
+        "PyYAML": "6.0.3",
+        "sniffio": "1.3.1",
+        "tokenizers": "0.23.2",
+        "tqdm": "4.70.1",
+        "typing_extensions": "4.15.0",
+        "yt-dlp": "2026.8.19"
+      },
+      "module_imports_from_bundle": true,
+      "missing_files": 0,
+      "record_metadata_differences": {
+        "count": 10,
+        "kind": "installation-tool INSTALLER metadata; no runtime code differences reported"
+      }
+    },
+    "ffmpeg": "N-127233-g452820cba6-20261007",
+    "vcredist": {
+      "version": "14.44.35211.0",
+      "sha256": "cc0ff0eb1dc3f5188ae6300faef32bf5beeba4bdd6e8e445a9184072096b713b",
+      "signature_status": "Valid",
+      "installer_executed": false
+    }
+  },
+  "tests": {
+    "total": 40,
+    "passed": 40,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 0,
+    "execution": "32 passed in the initial run; 8 loopback HTTP tests rerun and passed on unchanged code after local-network permission",
+    "packaged_code_matches_tested_source": true,
+    "unicode_model_path_load": true,
+    "mixed_batch": {
+      "status": "partial",
+      "media_statuses": [
+        "partial",
+        "success"
+      ],
+      "speech_segments": 5,
+      "transcript_formats": [
+        "txt",
+        "srt",
+        "json"
+      ],
+      "source_files_unchanged": true,
+      "summary_status": "pending",
+      "summary_ready": true
+    },
+    "missing_model": {
+      "error_code": "model_missing",
+      "media_retained": true,
+      "summary_ready": false
+    },
+    "base_speech": {
+      "seconds": 12.0330625,
+      "segments": 5,
+      "source_unchanged": true,
+      "application_cli_passed": true
+    },
+    "base_silence": {
+      "seconds": 2.0,
+      "segments": 0
+    }
+  },
+  "models": [
+    {
+      "name": "small",
+      "repository": "Systran/faster-whisper-small",
+      "revision": "536b0662742c02347bc0e980a01041f333bce120",
+      "files": [
+        {
+          "name": "config.json",
+          "bytes": 2370,
+          "sha256": "b55496ac7940a7ae47d2c01eab40edfd8701feec1229d9cce3b40014383fb828",
+          "verification": "Git blob SHA1 and byte size from official API"
+        },
+        {
+          "name": "model.bin",
+          "bytes": 483546902,
+          "sha256": "3e305921506d8872816023e4c273e75d2419fb89b24da97b4fe7bce14170d671",
+          "verification": "LFS SHA256 and byte size from official API"
+        },
+        {
+          "name": "tokenizer.json",
+          "bytes": 2203239,
+          "sha256": "fb7b63191e9bb045082c79fd742a3106a12c99513ab30df4a0d47fa6cb6fd0ab",
+          "verification": "Git blob SHA1 and byte size from official API"
+        },
+        {
+          "name": "vocabulary.txt",
+          "bytes": 459861,
+          "sha256": "34ce3fe1c5041027b3f8d42912270993f986dbc4bb34cf27f951e34a1e453913",
+          "verification": "Git blob SHA1 and byte size from official API"
+        }
+      ],
+      "offline_load_test": "passed",
+      "device": "cpu",
+      "compute_type": "int8"
+    },
+    {
+      "name": "base",
+      "repository": "Systran/faster-whisper-base",
+      "revision": "ebe41f70d5b6dfa9166e2c581c45c9c0cfc57b66",
+      "files": [
+        {
+          "name": "config.json",
+          "bytes": 2309,
+          "sha256": "56a6d8110d311f19c8f0471e562832c7527f146b567275bfca59fcf7c184da9a",
+          "verification": "Git blob SHA1 and byte size from fixed-revision official API"
+        },
+        {
+          "name": "model.bin",
+          "bytes": 145217532,
+          "sha256": "d01c3014881c9c6f3133c182f3d2887eb6ca1c789a7538c5c007196857a0a6a9",
+          "verification": "LFS SHA256 and byte size from fixed-revision official API"
+        },
+        {
+          "name": "tokenizer.json",
+          "bytes": 2203239,
+          "sha256": "fb7b63191e9bb045082c79fd742a3106a12c99513ab30df4a0d47fa6cb6fd0ab",
+          "verification": "Git blob SHA1 and byte size from fixed-revision official API"
+        },
+        {
+          "name": "vocabulary.txt",
+          "bytes": 459861,
+          "sha256": "34ce3fe1c5041027b3f8d42912270993f986dbc4bb34cf27f951e34a1e453913",
+          "verification": "Git blob SHA1 and byte size from fixed-revision official API"
+        }
+      ],
+      "offline_load_test": "passed",
+      "device": "cpu",
+      "compute_type": "int8"
+    }
+  ],
+  "summary_contract": {
+    "initial_status": "pending",
+    "ready_meaning": "spoken transcript available to the executing AI",
+    "cli_success_scope": "media acquisition and transcription only",
+    "completion_requirement": "executing AI reads the whole transcript, preserves it, writes a separate readable summary file, and delivers both",
+    "bundled_llm": false,
+    "automatic_paid_ai_api": false,
+    "llm_summary_quality_verified_in_this_report": false
+  },
+  "limitations": [
+    "Fresh Windows installation not tested; the included official signed VC++ x64 installer may need user installation.",
+    "Local models were tested offline; remote video download still needs network access and a valid authorized platform session.",
+    "No new Douyin download was performed during this bundle validation; the 2026-10-08 success remains historical evidence.",
+    "Self-hosted DTK live-platform download has not been verified; local HTTP contract tests passed.",
+    "Speech recognition may contain errors; the executing AI must mark uncertainty and never invent content when no speech is available.",
+    "Packaging integrity and credential exclusion are recorded separately by the release audit."
+  ]
+}
